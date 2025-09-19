@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "express": "4.21.2"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "jest": "^29"
   }
 }

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WS="/home/kavia/workspace/code-generation/knowledge-bot-f38ec8c2/Frontend"
+cd "$WS"
+# Ensure build script exists
+node -e "const p=require('./package.json'); if(!(p.scripts&&p.scripts.build)){console.error('no build script in package.json'); process.exit(2)}" || exit 2
+BUILD_LOG="/tmp/frontend_build.log"
+npm run build >"$BUILD_LOG" 2>&1 || (sed -n '1,200p' "$BUILD_LOG" >&2; echo 'build failed' >&2; exit 3)
+# show small evidence
+du -sh build || true
+sed -n '1,200p' "$BUILD_LOG" || true
+exit 0

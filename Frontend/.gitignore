@@ -1,0 +1,4 @@
+
+# Local env (do NOT commit)
+.env.local
+build/
