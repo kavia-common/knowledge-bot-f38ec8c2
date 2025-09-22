@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Build wrapper to ensure build script exists and run production build
+WS="/home/kavia/workspace/code-generation/knowledge-bot-f38ec8c2/Frontend"
+cd "$WS"
+# Ensure package.json has a build script
+if ! node -e "const p=require('./package.json'); if(!p.scripts||!p.scripts.build) { p.scripts = Object.assign({}, p.scripts, {build: 'react-scripts build'}); require('fs').writeFileSync('package.json', JSON.stringify(p,null,2)); }" >/dev/null 2>&1; then echo "WARN: could not patch package.json build script"; fi
+export NODE_ENV=production
+npm i --no-audit --no-fund --quiet
+echo "Running npm run build..."
+npm run build --silent
+if [ ! -d build ]; then echo "ERROR: build output missing" >&2; exit 7; fi
